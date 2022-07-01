@@ -1,0 +1,16 @@
+<!-- nimbus 數量 -->
+nimbus.num: 1
+<!-- nimbus IP 位置 -->
+nimbus.servers: 192.168.137.63
+
+<!-- zookeeper 數量 -->
+zookeeper.num: 1
+
+<!-- zookeeper IP 位置 -->
+zookeeper.servers: 192.168.137.63
+
+<!-- Worker 數量 -->
+worker.num: 4
+
+<!-- Worker RAM -->
+worker.ram: 8000

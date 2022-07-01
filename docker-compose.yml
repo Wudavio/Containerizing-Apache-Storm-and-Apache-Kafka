@@ -1,0 +1,75 @@
+version: '2'
+services:
+    zookeeper:
+        image: zookeeper
+        container_name: zookeeper
+        restart: always
+        volumes:
+          - ./zoo.cfg:/conf/zoo.cfg
+        ports:
+          - 2181:2181
+        environment:
+            ZOO_MY_ID: 1
+    nimbus:
+        image: storm:2.3.0
+        container_name: nimbus
+        command: storm nimbus
+        depends_on:
+            - zookeeper
+        links:
+            - zookeeper
+        restart: always
+        ports:
+            - 6627:6627
+        volumes:
+            - ./storm.yaml:/conf/storm.yaml
+            - ./stormLogs:/logs
+    supervisor:
+        image: storm:2.3.0
+        container_name: supervisor
+        command: /bin/bash -c "storm supervisor | storm logviewer"
+        depends_on:
+            - nimbus
+            - zookeeper
+        links:
+            - nimbus
+            - zookeeper
+        restart: always
+        volumes:
+            - ./storm.yaml:/conf/storm.yaml
+        ports:
+            - 6700:6700
+            - 6701:6701
+            - 6702:6702
+            - 6703:6703
+            - 8000:8000 #必須對supervisor增加8000port以便stormui去尋找每一個supervisor的logs
+    ui:
+        image: storm:2.3.0
+        container_name: stormui
+        command: storm ui
+        depends_on:
+          - nimbus
+          - zookeeper
+          - supervisor
+        links:
+          - nimbus
+          - zookeeper
+        restart: always
+        volumes:
+            - ./storm.yaml:/conf/storm.yaml
+        ports:
+          - 8080:8080
+    topology:
+        image: storm:2.3.0
+        container_name: topologyPushJarConfig
+        command : storm jar /apache-storm-2.3.0/MainExample/target/MainExample-1.0-SNAPSHOT.jar MainControl Main1234
+        depends_on:
+            - nimbus
+            - zookeeper
+            - supervisor
+        links:
+            - nimbus
+        volumes:
+            - ./storm.yaml:/conf/storm.yaml
+            - ./MainExample/:/apache-storm-2.3.0/MainExample
+            - ./MainExample/config.xml:/apache-storm-2.3.0/config.xml
