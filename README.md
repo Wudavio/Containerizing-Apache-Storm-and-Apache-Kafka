@@ -72,7 +72,7 @@ worker.ram: 4096
 ### 修改程式碼中KafkaIP
 修改**MainExample/src/main/java/KafkaMainProducer.java**中的your_host_ip
 ```java=
-props.put("bootstrap.servers", "中的your_host_ip:9092");
+props.put("bootstrap.servers", "your_host_ip:9092");
 ```
 修改**MainExample/src/main/java/KafkaMainComsumer.java**中的your_host_ip
 ```java=
