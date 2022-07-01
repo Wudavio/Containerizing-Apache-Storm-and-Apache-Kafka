@@ -2,20 +2,22 @@
 
 # Containerizing Apache-Storm and Apache-Kafka
 
-:::success
-
-:bookmark: 書籤
-
-[TOC]
-
-:::
-
 ## 介紹
-實作容器化的Apache Storm並將Spout串接Kafka
+Apache Storm是一個分散式計算框架，適合處理即時的資料流，並具有容錯機制(保證Message被處理)
 
-:::danger
-使用前將設定檔與程式碼中的IP換成欲部署的IPv4，並參考以下環境設定。
-:::
+```
+Apache Storm Cluster的工作原理，是由Client提交Topology至Nimbus，Nimbus將Jar發送至所有的Supervisor節點，
+當所有的Supervisor接收完Jar包括，Nimbus將任務發布Zookeeper，Supervisor收到Zookeeper分派的任務後，
+啟動Work，Work啟動Executor，Executor執行Task(任務)，而Storm UI則負責監控整個Cluster。
+```
+本專案實作容器化的Apache Storm並將Spout串接Apache Kafka
+
+以下是本專案實現流程(Database並未實作)
+
+![2](https://user-images.githubusercontent.com/40749259/176949683-cb66d341-accc-47e3-868d-f247a7b3aea8.JPG)
+
+**使用前將設定檔與程式碼中的IP換成欲部署的IPv4，並參考以下環境設定。**
+
 ## 環境需求
 ```
 Docker version 20.10.14, build a224086
@@ -89,7 +91,7 @@ mvn clean package
 打包後會在MainExample底下出現target資料夾
 可以找到整個Topology的主要Jar檔案**MainExample-1.0-SNAPSHOT.jar**
 
-## 佈署容器
+## 部署容器
 
 ### Kafka Dokcer-compose
 打開MainExample中的Kafka資料夾
