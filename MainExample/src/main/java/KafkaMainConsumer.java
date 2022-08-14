@@ -6,13 +6,13 @@ import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.common.serialization.LongDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
-public class KafkaMainComsumer {
+public class KafkaMainConsumer {
     public static KafkaConsumer<String, String> consumer;
     private final static String TOPIC = "exampleTopicName";
     private final static String BOOTSTRAP_SERVERS = "192.168.137.63:9092";
     private final static String GROUPID = "ConsumerGroup1";
 
-    public KafkaMainComsumer() {
+    public KafkaMainConsumer() {
         Properties props = new Properties();
         props.put("bootstrap.servers", BOOTSTRAP_SERVERS);
         props.put("group.id", GROUPID);

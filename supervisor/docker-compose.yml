@@ -1,0 +1,21 @@
+version: '2'
+services:
+    supervisor:
+        image: storm:2.3.0
+        container_name: supervisor
+        command: /bin/bash -c "storm supervisor | storm logviewer"
+        depends_on:
+            - nimbus
+            - zookeeper
+        links:
+            - nimbus
+            - zookeeper
+        restart: always
+        volumes:
+            - ./storm.yaml:/conf/storm.yaml
+        ports:
+            - 6700:6700
+            - 6701:6701
+            - 6702:6702
+            - 6703:6703
+            - 8000:8000 #open 8000 port for logviewer

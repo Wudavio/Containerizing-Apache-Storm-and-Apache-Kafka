@@ -74,7 +74,7 @@ worker.ram: 4096
 ```java=
 props.put("bootstrap.servers", "your_host_ip:9092");
 ```
-修改**MainExample/src/main/java/KafkaMainComsumer.java**中的your_host_ip
+修改**MainExample/src/main/java/KafkaMainConsumer.java**中的your_host_ip
 ```java=
 private final static String BOOTSTRAP_SERVERS = "your_host_ip:9092";
 ```
@@ -120,6 +120,21 @@ storm.local.hostname: "your_host_ip"
 ```
 
 進入根目錄並執行Apache Storm
+```
+docker-compose up -d
+```
+### Cluster Add Supervisor
+
+修改**storm.yaml**中的**host_ip**
+```yaml=
+storm.zookeeper.servers:
+ - "zookeeper_host_ip"
+
+nimbus.seeds: ["nimbus_host_ip"]
+storm.local.hostname: "current_deployment_host_ip"
+```
+
+進入根目錄並執行Apache Storm Supervisor來增加計算節點
 ```
 docker-compose up -d
 ```

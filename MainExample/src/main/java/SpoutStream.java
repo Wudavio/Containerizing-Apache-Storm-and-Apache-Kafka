@@ -6,17 +6,8 @@ import org.apache.storm.tuple.Values;
 import org.apache.storm.topology.base.BaseRichSpout;
 
 import java.util.Map;
-// import java.util.Properties;
-// import java.time.Duration;
-// import java.util.Collections;
-// import java.util.Arrays;
 import org.apache.kafka.clients.consumer.*;
 import java.time.Duration;
-// import org.apache.kafka.clients.consumer.Consumer;
-// import org.apache.kafka.common.serialization.LongDeserializer;
-// import org.apache.kafka.common.serialization.StringDeserializer;
-
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +21,7 @@ public class SpoutStream extends BaseRichSpout {
         this.spoutOutputCollector = spoutOutputCollector;
         try {
             System.out.println("=======first======Open");
-            KafkaMainComsumer KMC = new KafkaMainComsumer();
+            KafkaMainConsumer KMC = new KafkaMainConsumer();
         } catch(Exception e) {}
     }
 
@@ -38,7 +29,7 @@ public class SpoutStream extends BaseRichSpout {
     public void nextTuple() {
         try {
             while (true) {
-                msgList = KafkaMainComsumer.consumer.poll(Duration.ofMillis(1000));
+                msgList = KafkaMainConsumer.consumer.poll(Duration.ofMillis(1000));
                 if (msgList != null && msgList.count() > 0) {
                     for (ConsumerRecord<String, String> record : msgList) {
                         System.out.println(msgNum+": key = " + record.key() + ", value = " + record.value()+" offset==="+record.offset());
